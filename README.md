@@ -84,6 +84,7 @@ Você: sair
 ### Commands
 
 - **"oi"** - Greet the bot
+- **"criador"** - show the name of the code creator
 - **"piada"** - Request a joke
 - **"trocar"** - Switch to a random bot personality
 - **"sair"** - Exit the program
