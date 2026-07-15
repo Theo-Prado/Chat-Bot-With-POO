@@ -1,58 +1,61 @@
 import random
 
 class ChatBot:
-    def __init__(self, nome):
-        self.nome = nome
+  def __init__(self,nome):
+    self.nome = nome
 
-    def responder(self, mensagem):
-        mensagem = mensagem.lower()
+  def responder(self, mensagem):
+    mensagem = mensagem.lower()
 
-        if "oi" in mensagem:
-            respostas = [
-                "Olá!",
-            ]
-            return random.choice(respostas)
+    if "oi" in mensagem:
+      respostas = [
+          "Olá!",
+          "Seja bem-vindo(a) ao Sistema de Chat Bot!",
+          "Seja bem-vindo!"
+      ]
+      return random.choice(respostas)
 
-        elif "piada" in mensagem:
-            piadas = [
-                "Por que o computador foi ao médico? Porque estava com vírus!",
-                "Qual é o café mais perigoso? O ex-presso!",
-                "Por que o livro de matemática ficou triste? Porque tinha muitos problemas!"
-            ]
-            return random.choice(piadas)
+    elif "criador" in mensagem:
+      return "O criador do Chat Bot é Theo Silva Prado!"
 
-        else:
-            respostas = [
-                "Não entendi.",
-                "Pode explicar melhor?",
-                "Minha inteligência artificial ainda está aprendendo!"
-            ]
-            return random.choice(respostas)
+    elif "piada" in mensagem:
+      piadas = [
+          "Por que o computador foi ao médico? Porque estava com vírus!",
+          "Qual é o café mais perigoso? O ex-presso!",
+          "Por que o livro de matemática ficou triste? Porque tinha muitos problemas!"
+      ]
+      return random.choice(piadas)
+
+    else:
+      respostas = [
+          "Não entendi.",
+          "Pode repetir? Por favor."
+      ]
+      return random.choice(respostas)
 
 class BotEngracado(ChatBot):
-    def responder(self, mensagem):
-      mensagem = mensagem.lower()
-      if "oi" in mensagem:
-        return "Olá, humano!"
-      elif "piada" in mensagem:
-        respostas = [
-            "O que o pato disse para a pata? Vem quá!",
-            "Era uma vez um pintinho chamado Relam. Quando chovia Relam piava!",
-            "Por que a idosa não usa relógio? Porque ela é sem hora!",
-        ]
-        return random.choice(respostas)
-      else:
-        return "Meu cérebro cibernético deu tela azul. Pode repetir?"
+
+  def responder (self,mensagem):
+    mensagem = mensagem.lower()
+    if "piada" in mensagem:
+      return random.choice([
+          "O que o pato disse para a pata? Vem quá!",
+          "Era uma vez um pintinho chamado Relam. Quando chovia Relam piava!",
+          "Por que a idosa não usa relógio? Porque ela é sem hora!",
+      ])
+
+    return super().responder(mensagem)
 
 class BotSerio(ChatBot):
-    def responder(self, mensagem):
-      mensagem = mensagem.lower()
-      if "oi" in mensagem:
-        return "Olá, senhor(a)."
-      elif "piada" in mensagem:
-        return "Eu não brinco em serviço."
-      else:
-        return "Eu não compreendi o conteúdo da sua mensagem. Por obséquio tente novamente."
+
+  def responder (self,mensagem):
+    mensagem = mensagem.lower()
+
+    if "piada" in mensagem:
+      return "Eu não brinco em serviço."
+
+    return super().responder(mensagem)
+
 bot_list = [
     ChatBot,
     BotEngracado,
@@ -61,14 +64,24 @@ bot_list = [
 bot_choice = random.choice(bot_list)
 bot = bot_choice(bot_choice.__name__)
 
-while True:
-    usuario = input("Você: ")
 
-    if usuario.lower() == "sair":
-        break
-    elif usuario.lower() == "trocar":
-      bot_choice = random.choice(bot_list)
-      bot = bot_choice(bot_choice.__name__)
-      continue
+try:
+    while True:
+        usuario = input("Você: ")
 
-    print(f"{bot.nome}: {bot.responder(usuario)}")
+        if usuario.lower() == "sair":
+            break
+        elif usuario.lower() == "trocar":
+
+            removed_bot_class = bot_choice
+            bot_list.remove(removed_bot_class)
+            bot_choice = random.choice(bot_list)
+            bot = bot_choice(bot_choice.__name__)
+            bot_list.append(removed_bot_class)
+
+            print(f"Bot trocado com sucesso! Agora você esta conversando com {bot.nome}.")
+            continue
+
+        print(f"{bot.nome}: {bot.responder(usuario)}")
+except KeyboardInterrupt:
+    print("Obrigado por utilizar nossos bots!")
